@@ -6,50 +6,40 @@ use Illuminate\Http\Request;
 
 class StoreController extends Controller
 {
-    protected function productsData()
-    {
-        return [
-            ['id'=>1,'name'=>'Wireless Headphones','price'=>99.99,'on_sale'=>true,'description'=>'Headphones with great sound','image'=>'images/headphones.jpg'],
-            ['id'=>2,'name'=>'Gaming Mouse','price'=>49.99,'on_sale'=>false,'description'=>'High precision mouse','image'=>'images/mouse.jpg'],
-            ['id'=>3,'name'=>'Mechanical Keyboard','price'=>129.99,'on_sale'=>true,'description'=>'RGB mechanical keyboard','image'=>'images/keyboard.jpg'],
-        ];
-    }
-
     public function products()
     {
-        $products = $this->productsData();
+        // مصفوفة منتجات تجريبية
+        $products = [
+            ['name' => 'حقيبة يمنية', 'price' => 120, 'on_sale' => true, 'description' => 'حقيبة تقليدية بتطريز يدوي'],
+            ['name' => 'حذاء مطرز', 'price' => 85, 'on_sale' => false, 'description' => 'حذاء يمني تقليدي'],
+            ['name' => 'إكسسوارات فضية', 'price' => 95, 'on_sale' => true, 'description' => 'إكسسوارات مصنوعة يدويًا'],
+        ];
         return view('shop.products', compact('products'));
     }
 
-    public function productDetails($id)
+    public function productDetails()
     {
-        $products = $this->productsData();
-        $product = collect($products)->firstWhere('id', (int)$id);
-
-        if (!$product) {
-            abort(404);
-        }
-
+        $product = [
+            'name' => 'حقيبة يمنية',
+            'price' => 120,
+            'old_price' => 150,
+            'description' => 'حقيبة تقليدية بتصميم يدوي',
+            'manufacturer' => 'Yemen Lady',
+        ];
         return view('shop.product-details', compact('product'));
     }
 
     public function cart()
     {
-        // بيانات dummy للسلة
-        $cart = [
-            ['product_id'=>1,'name'=>'Wireless Headphones','qty'=>1,'price'=>99.99],
-            ['product_id'=>2,'name'=>'Gaming Mouse','qty'=>2,'price'=>49.99],
-        ];
-        return view('shop.cart', compact('cart'));
+        return view('shop.cart');
     }
 
-    public function about()
+    public function aboutUs()
     {
-        $title = 'من نحن';
-        $description = 'هذه صفحة عن المتجر. نهدف إلى تقديم أفضل المنتجات.';
-        $rawHtml = '<p><strong>Shoppatty</strong> متجر إلكتروني    .</p>';
-
-        return view('shop.about-us', compact('title','description','rawHtml'));
+        $title = "عن Yemen Lady";
+        $description = "متجر يقدم منتجات نسائية يمنية أصيلة تجمع بين الطابع التراثي والتصميم العصري.";
+        $rawHtml = "<strong>⚠️ ملاحظة:</strong> استخدام {!! !!} لعرض HTML خام فيه مخاطر أمنية إذا لم يتم الفلترة!";
+        return view('shop.about-us', compact('title', 'description', 'rawHtml'));
     }
 
     public function contact()
